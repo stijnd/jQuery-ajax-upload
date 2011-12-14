@@ -48,13 +48,27 @@
             $hidden = $('<input type="hidden" name="'+tmpName+'" id="'+tmpId+'" class="'+tmpClass+'" />');
             $element.after($hidden).remove();
 
-            //add an iframe
-            $iframe = $('<iframe frameborder="0" name="upload_hidden" id="upload_hidden" style="display:none;" />');
-            par_form.after($iframe);
+            //add an iframe - //don't clutter the dom with iframe and hidden forms!
+            if($('.upload_hidden_iframe').length <= 0)
+            {
+                $iframe = $('<iframe frameborder="0" name="upload_hidden" class="upload_hidden_iframe" style="display:none;" />');
+                $('body').after($iframe);
+            }
+            else
+            {
+                $iframe = $('.upload_hidden_iframe');
+            }
 
-            //add a form
-            $form = $('<form method="POST" enctype="multipart/form-data" action="'+plugin.settings.upload_url+'" target="upload_hidden" style="display:none;"><input type="file" name="'+plugin.settings.fieldname+'" id="'+plugin.settings.fieldname+'" /></form>');
-            par_form.after($form);
+            //add a form - //don't clutter the dom with iframe and hidden forms!
+            if($('.uploaden_hidden_form').length <= 0)
+            {
+                $form = $('<form method="POST" enctype="multipart/form-data" action="'+plugin.settings.upload_url+'" class="uploaden_hidden_form" target="upload_hidden" style="display:none;"><input type="file" name="'+plugin.settings.fieldname+'" id="'+plugin.settings.fieldname+'" /></form>');
+                $('body').after($form);
+            }
+            else
+            {
+                $form = $('.uploaden_hidden_form');
+            }
 
             //add upload button!
             $button = $('<a href="#" class="ajax_upload_btn">'+plugin.settings.btn_text+'</a>');
@@ -62,8 +76,23 @@
 
             $hidden.after($button, $loader);
 
+            //add listener to button
+            $button.click(function(e){
+                //prevent hash-url
+                e.preventDefault();
+
+                //do the click_action method
+                click_action();  
+            });
+        }
+
+        // plugin.foo_public_method = function() {
+        //     // code goes here
+        // }
+
+        var click_action = function() {
             //add listener to the iframe
-            $iframe.load(function(e){
+            $iframe.unbind().load(function(e){
                 var response = document.all? this.contentDocument.body.innerText : this.contentDocument.body.textContent;//.innerText;
                 response = response.length > 0 ? $.parseJSON(response) : null;
 
@@ -78,14 +107,12 @@
                         //callback
                         if(typeof plugin.settings.succes == 'function')
                         {
-                            plugin.settings.succes();
+                            plugin.settings.succes(response);
                         }
                     }
                     else
                     {
                         //fire error event
-                        //console.log(response.error);
-
                         //callback
                         if(typeof plugin.settings.error == 'function')
                         {
@@ -102,10 +129,14 @@
                 }
 
                 $loader.hide();
+
+                //unbind to prevent other upload-boxes to react!
+                $iframe.unbind();
+                $('#'+plugin.settings.fieldname, $form).unbind();
             });
-            
+
             //add listener to hidden upload-field
-            $('#ajax_upload_field', $form).change(function(e){
+            $('#'+plugin.settings.fieldname, $form).unbind().change(function(e){
                 $loader.show();
 
                 if(typeof plugin.settings.selected == 'function')
@@ -116,25 +147,9 @@
                 $(this).parents('form').submit();
             });
 
-            //add listener to button
-            $button.click(function(e){
-                startup = false;
-
-                //prevent hash-url
-                e.preventDefault();
-
-                //trigger fileupload field
-                $('#ajax_upload_field', $form).click();  
-            });
+            //trigger fileupload field
+            $('#'+plugin.settings.fieldname, $form).click();
         }
-
-        // plugin.foo_public_method = function() {
-        //     // code goes here
-        // }
-
-        // var foo_private_method = function() {
-        //     // code goes here
-        // }
 
         plugin.init();
 

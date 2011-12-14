@@ -48,6 +48,13 @@
       
       <input type="submit" name="submit" id="submit" value="Submit" />
     </form>
+
+     <form method="post" action="">
+      <label for="file">File upload</label>
+      <input type="file" class="fleupload" name="file2" id="file2" />
+      
+      <input type="submit" name="submit" id="submit" value="Submit" />
+    </form>
   </div>
   <footer>
 
@@ -62,8 +69,7 @@
 
 
   <!-- scripts concatenated and minified via build script -->
-  <script defer src="js/mylibs/jquery.upload.1.0.min.js"></script>
-  <script defer src="js/plugins.js"></script>
+  <script defer src="../jquery.upload.1.0.js"></script>
   <script defer src="js/script.js"></script>
   <!-- end scripts -->
 
