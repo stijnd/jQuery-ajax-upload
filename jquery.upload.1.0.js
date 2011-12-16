@@ -52,7 +52,7 @@
             if($('.upload_hidden_iframe').length <= 0)
             {
                 $iframe = $('<iframe frameborder="0" name="upload_hidden" class="upload_hidden_iframe" style="display:none;" />');
-                $('body').after($iframe);
+                $('body').append($iframe);
             }
             else
             {
@@ -63,7 +63,7 @@
             if($('.uploaden_hidden_form').length <= 0)
             {
                 $form = $('<form method="POST" enctype="multipart/form-data" action="'+plugin.settings.upload_url+'" class="uploaden_hidden_form" target="upload_hidden" style="visibility:hidden; height:0; width:0;"><input type="file" name="'+plugin.settings.fieldname+'" id="'+plugin.settings.fieldname+'" /></form>');
-                $('body').after($form);
+                $('body').append($form);
             }
             else
             {
@@ -144,11 +144,10 @@
                     plugin.settings.selected();   
                 }
 
-                $(this).parents('form').submit();
+                $form.submit();
             });
 
             //trigger fileupload field
-            console.log($('#'+plugin.settings.fieldname, $form));
             $('#'+plugin.settings.fieldname, $form).click();
         }
 
