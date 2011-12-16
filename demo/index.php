@@ -45,13 +45,8 @@
 
       <label for="file">File upload</label>
       <input type="file" class="fleupload" name="file" id="file" />
-      
-      <input type="submit" name="submit" id="submit" value="Submit" />
-    </form>
-
-     <form method="post" action="">
-      <label for="file">File upload</label>
-      <input type="file" class="fleupload" name="file2" id="file2" />
+      <div id="preview1"></div>
+      <div id="error"></div>
       
       <input type="submit" name="submit" id="submit" value="Submit" />
     </form>

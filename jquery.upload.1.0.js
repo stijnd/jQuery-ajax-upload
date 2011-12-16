@@ -1,8 +1,8 @@
 /*
     --------------------------------
-    jQuery Ajax upload
+    jQuery "Ajax" upload
     --------------------------------
-    + https://github.com/stijnd/jquery-upload
+    + http://stijnd.be/jquery-upload/
     + version 1.0
     + Copyright 2011 Stijn Debacker
     + Licensed under the MIT license
@@ -62,7 +62,7 @@
             //add a form - //don't clutter the dom with iframe and hidden forms!
             if($('.uploaden_hidden_form').length <= 0)
             {
-                $form = $('<form method="POST" enctype="multipart/form-data" action="'+plugin.settings.upload_url+'" class="uploaden_hidden_form" target="upload_hidden" style="display:none;"><input type="file" name="'+plugin.settings.fieldname+'" id="'+plugin.settings.fieldname+'" /></form>');
+                $form = $('<form method="POST" enctype="multipart/form-data" action="'+plugin.settings.upload_url+'" class="uploaden_hidden_form" target="upload_hidden" style="visibility:hidden; height:0; width:0;"><input type="file" name="'+plugin.settings.fieldname+'" id="'+plugin.settings.fieldname+'" /></form>');
                 $('body').after($form);
             }
             else
@@ -148,6 +148,7 @@
             });
 
             //trigger fileupload field
+            console.log($('#'+plugin.settings.fieldname, $form));
             $('#'+plugin.settings.fieldname, $form).click();
         }
 
